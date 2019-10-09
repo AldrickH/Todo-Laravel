@@ -30,20 +30,19 @@ class Todo extends Controller
     {
         $description = $request->input('description');
         $this->todoRepo->create($description);
-        return redirect(route('todoIndex'));
+        return redirect()->route('todoIndex');
     }
 
     public function detail(int $id)
     {
         $todo = $this->todoRepo->get($id);
-        if ($todo == null) abort(404);
         return view('detail', ['todo' => $todo]);
     }
 
     public function delete(int $id)
     {
         $this->todoRepo->delete($id);
-        return redirect(route('todoIndex'));
+        return redirect()->route('todoIndex');
     }
 
     public function edit(int $id)
@@ -58,7 +57,7 @@ class Todo extends Controller
         $todo->description = $request->input('description');
         $todo->status = $request->input('status');
         $this->todoRepo->update($id, $todo);
-        return redirect(route('todoIndex'));
+        return redirect()->route('todoIndex');
     }
 
     public function finished() {

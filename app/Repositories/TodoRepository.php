@@ -6,6 +6,7 @@ use App\Todo;
 
 class TodoRepository implements TodoInterface
 {
+  
     public function all()
     {
         return Todo::all();
@@ -26,20 +27,17 @@ class TodoRepository implements TodoInterface
 
     public function update(int $id, Todo $data)
     {
-        $todo = Todo::findOrFail($id);
-        $todo->description = $data->description;
-        if ($data->status == "finished") $todo->status = 1;
-        else $todo->status = 0;
-        $todo->save();
+        if ($data->status == "finished") $status = 1;
+        else $status = 0;
+        $this->get($id)->update(['description' => $data->description, 'status' => $status]);
     }
     
     public function delete(int $id)
     {
-        $todo = Todo::findOrFail($id);
-        $todo->delete();
+        $this->get($id)->delete();
     }
 
     public function showFinished() {
-        return Todo::all()->where('status', 1);
+        return $this->all()->where('status', 1);
     }
 }
